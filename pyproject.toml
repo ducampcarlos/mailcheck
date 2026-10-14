@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mailcheck"
+dynamic = ["version"]
+description = "Passive email-authentication health check for a domain: SPF, DKIM, DMARC, MX and MTA-STS."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Carlos Ducamp" }]
+keywords = ["email", "spf", "dkim", "dmarc", "dns", "deliverability", "security"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Communications :: Email",
+    "Topic :: Security",
+]
+dependencies = ["dnspython>=2.4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+mailcheck = "mailcheck.cli:main"
+
+[tool.hatch.version]
+path = "src/mailcheck/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mailcheck"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
